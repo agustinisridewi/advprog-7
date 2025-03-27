@@ -48,15 +48,15 @@ You can install Postman via this website: https://www.postman.com/downloads/
     (You might want to use `cargo check` if you only need to verify your work without running the app.)
 
 ## Mandatory Checklists (Publisher)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
+-   [x] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Subscriber model struct.`
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create Subscriber database and Subscriber repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Subscriber repository.`
-    -   [ ] Commit: `Implement list_all function in Subscriber repository.`
-    -   [ ] Commit: `Implement delete function in Subscriber repository.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
+    -   [x] Commit: `Create Subscriber model struct.`
+    -   [x] Commit: `Create Notification model struct.`
+    -   [x] Commit: `Create Subscriber database and Subscriber repository struct skeleton.`
+    -   [x] Commit: `Implement add function in Subscriber repository.`
+    -   [x] Commit: `Implement list_all function in Subscriber repository.`
+    -   [x] Commit: `Implement delete function in Subscriber repository.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
     -   [ ] Commit: `Create Notification service struct skeleton.`
     -   [ ] Commit: `Implement subscribe function in Notification service.`
@@ -77,6 +77,20 @@ This is the place for you to write reflections:
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
+
+**1. In the Observer pattern diagram explained by the Head First Design Pattern book, Subscriber is defined as an interface. Explain based on your understanding of Observer design patterns, do we still need an interface (or trait in Rust) in this BambangShop case, or a single Model struct is enough?**
+
+Dalam Observer Pattern, biasanya Subscriber didefinisikan sebagai sebuah interface (atau trait dalam Rust) agar berbagai jenis subscriber dapat memiliki metode yang sama dengan perilaku yang berbeda. Namun, dalam kasus BambangShop, kita hanya memiliki satu struct Subscriber yang menyimpan url dan name, tanpa variasi jenis subscriber. Karena semua subscriber saat ini memiliki format yang sama, **single Model struct cukup** yang berarti penggunaan trait tidaklah wajib. 
+
+Akan tetapi, jika ada variasi subscriber di masa depan, lebih baik menggunakan trait agar lebih fleksibel dan sesuai dengan prinsip SOLID.
+
+**2. id in Program and url in Subscriber is intended to be unique. Explain based on your understanding, is using Vec (list) sufficient or using DashMap (map/dictionary) like we currently use is necessary for this case?**
+
+Vec memang cukup jika data hanya digunakan untuk traversal, tetapi dalam kasus ini, kita sering mengakses data dengan pencarian langsung. DashMap lebih cocok karena memiliki kompleksitas O(1), sementara Vec membutuhkan iterasi penuh untuk menemukan suatu elemen O(n). Dengan mempertimbangkan kebutuhan akan pencarian cepat dan keamanan dalam lingkungan multi-threading, penggunaan **DashMap lebih efektif dibandingkan Vec**.
+
+**3. When programming using Rust, we are enforced by rigorous compiler constraints to make a thread-safe program. In the case of the List of Subscribers (SUBSCRIBERS) static variable, we used the DashMap external library for thread safe HashMap. Explain based on your understanding of design patterns, do we still need DashMap or we can implement Singleton pattern instead?**
+
+Dalam kasus ini, pola **Singleton dan DashMap saling melengkapi** dalam memastikan keamanan akses data dalam lingkungan multithreading. Singleton memastikan hanya ada satu instance yang digunakan, tetapi tidak cukup untuk menangani akses bersamaan oleh banyak thread, yang dapat menyebabkan race condition. Oleh karena itu, DashMap diperlukan karena mendukung akses bersamaan tanpa penguncian eksplisit, memungkinkan concurrent reads dan writes secara aman dan efisien.
 
 #### Reflection Publisher-2
 
