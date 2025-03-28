@@ -58,12 +58,12 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement delete function in Subscriber repository.`
     -   [x] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
     -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
     -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
@@ -93,5 +93,16 @@ Vec memang cukup jika data hanya digunakan untuk traversal, tetapi dalam kasus i
 Dalam kasus ini, pola **Singleton dan DashMap saling melengkapi** dalam memastikan keamanan akses data dalam lingkungan multithreading. Singleton memastikan hanya ada satu instance yang digunakan, tetapi tidak cukup untuk menangani akses bersamaan oleh banyak thread, yang dapat menyebabkan race condition. Oleh karena itu, DashMap diperlukan karena mendukung akses bersamaan tanpa penguncian eksplisit, memungkinkan concurrent reads dan writes secara aman dan efisien.
 
 #### Reflection Publisher-2
+**1. In the Model-View Controller (MVC) compound pattern, there is no “Service” and “Repository”. Model in MVC covers both data storage and business logic. Explain based on your understanding of design principles, why we need to separate “Service” and “Repository” from a Model?**
+
+Prinsip desain seperti Single Responsibility Principle (SRP) menyarankan agar setiap komponen memiliki satu tanggung jawab spesifik. Dengan memisahkan Service dan Repository dari model, kita dapat menjaga kode tetap modular dan mudah dipelihara. Model berfokus pada representasi data, Repository bertanggung jawab untuk akses dan penyimpanan data, dan Service mengelola logika bisnis serta operasi kompleks. Pemisahan ini juga mempermudah pengujian secara terpisah dan memungkinkan pengembangan yang lebih fleksibel dan scalable tanpa mengganggu bagian lain dalam kode.
+
+**2. What happens if we only use the Model? Explain your imagination on how the interactions between each model (Program, Subscriber, Notification) affect the code complexity for each model?**
+
+Jika kita hanya menggunakan Model tanpa memisahkan Service dan Repository, pemeliharaan dan kompleksitas kode akan menjadi tantangan besar. Model akan bertanggung jawab tidak hanya untuk penyimpanan data tetapi juga logika bisnis, yang melanggar prinsip Single Responsibility Principle (SRP). Hal ini membuat kode menjadi tidak terstruktur dan sulit dipelihara, terutama saat terjadi interaksi antar model. Dependency yang muncul dapat memicu perubahan pada satu model yang merusak bagian lain dari sistem.
+
+**3. Have you explored more about Postman? Tell us how this tool helps you to test your current work. You might want to also list which features in Postman you are interested in or feel like it is helpful to help your Group Project or any of your future software engineering projects.**
+
+Saya telah mengeksplorasi Postman sebagai alat untuk melakukan pengujian API, dan saya menemukan bahwa Postman sangat membantu dalam menguji endpoint aplikasi web dengan cepat tanpa perlu menulis kode. Saya menggunakan Postman untuk menguji berbagai fungsi seperti subscribe dan unsubscribe pada Notification Service. Beberapa fitur yang sangat membantu bagi saya mencakup fitur Collections untuk mengelompokkan permintaan dalam satu tempat dan fitur Automation & Testing untuk menjalankan pengujian secara otomatis.
 
 #### Reflection Publisher-3
