@@ -65,11 +65,11 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement unsubscribe function in Notification controller.`
     -   [x] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
-    -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
-    -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
-    -   [ ] Commit: `Implement publish function in Program service and Program controller.`
-    -   [ ] Commit: `Edit Product service methods to call notify after create/delete.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
+    -   [x] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
+    -   [x] Commit: `Implement notify function in Notification service to notify each Subscriber.`
+    -   [x] Commit: `Implement publish function in Program service and Program controller.`
+    -   [x] Commit: `Edit Product service methods to call notify after create/delete.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -93,6 +93,7 @@ Vec memang cukup jika data hanya digunakan untuk traversal, tetapi dalam kasus i
 Dalam kasus ini, pola **Singleton dan DashMap saling melengkapi** dalam memastikan keamanan akses data dalam lingkungan multithreading. Singleton memastikan hanya ada satu instance yang digunakan, tetapi tidak cukup untuk menangani akses bersamaan oleh banyak thread, yang dapat menyebabkan race condition. Oleh karena itu, DashMap diperlukan karena mendukung akses bersamaan tanpa penguncian eksplisit, memungkinkan concurrent reads dan writes secara aman dan efisien.
 
 #### Reflection Publisher-2
+
 **1. In the Model-View Controller (MVC) compound pattern, there is no “Service” and “Repository”. Model in MVC covers both data storage and business logic. Explain based on your understanding of design principles, why we need to separate “Service” and “Repository” from a Model?**
 
 Prinsip desain seperti Single Responsibility Principle (SRP) menyarankan agar setiap komponen memiliki satu tanggung jawab spesifik. Dengan memisahkan Service dan Repository dari model, kita dapat menjaga kode tetap modular dan mudah dipelihara. Model berfokus pada representasi data, Repository bertanggung jawab untuk akses dan penyimpanan data, dan Service mengelola logika bisnis serta operasi kompleks. Pemisahan ini juga mempermudah pengujian secara terpisah dan memungkinkan pengembangan yang lebih fleksibel dan scalable tanpa mengganggu bagian lain dalam kode.
@@ -106,3 +107,17 @@ Jika kita hanya menggunakan Model tanpa memisahkan Service dan Repository, pemel
 Saya telah mengeksplorasi Postman sebagai alat untuk melakukan pengujian API, dan saya menemukan bahwa Postman sangat membantu dalam menguji endpoint aplikasi web dengan cepat tanpa perlu menulis kode. Saya menggunakan Postman untuk menguji berbagai fungsi seperti subscribe dan unsubscribe pada Notification Service. Beberapa fitur yang sangat membantu bagi saya mencakup fitur Collections untuk mengelompokkan permintaan dalam satu tempat dan fitur Automation & Testing untuk menjalankan pengujian secara otomatis.
 
 #### Reflection Publisher-3
+
+**1.Observer Pattern has two variations: Push model (publisher pushes data to subscribers) and Pull model (subscribers pull data from publisher). In this tutorial case, which variation of Observer Pattern that we use?**
+
+Pada tutorial ini, variasi Observer Pattern yang digunakan adalah model Push. Dalam model ini, publisher secara aktif mengirimkan data ke subscriber setiap kali terjadi perubahan, seperti create, update, atau delete. Proses tersebut secara langsung memicu pemanggilan NotificationService. Service ini kemudian mengirimkan pembaruan ke semua subscriber tanpa memerlukan permintaan eksplisit dari mereka. Dengan kata lain, publisher secara aktif mendorong notifikasi ke para subscriber, sesuai dengan implementasi fungsi notify pada NotificationService.
+
+**2.What are the advantages and disadvantages of using the other variation of Observer Pattern for this tutorial case? (example: if you answer Q1 with Push, then imagine if we used Pull)**
+
+Jika kita menerapkan model Pull dalam tutorial ini, terdapat sejumlah keuntungan dan kekurangan yang perlu dipertimbangkan. Salah satu keuntungan utamanya adalah pemanfaatan sumber daya yang lebih efisien, karena data hanya dikirim ketika diminta oleh subscriber. Selain itu, model ini memberikan kendali penuh kepada subscriber untuk menentukan data apa yang dibutuhkan, sehingga lebih fleksibel dalam pengelolaan informasi.
+
+Namun, ada juga beberapa kelemahan yang muncul. Subscriber harus secara berkala memeriksa adanya perubahan pada publisher, yang dapat meningkatkan beban pemrosesan pada CPU selama proses notifikasi. Selain itu, kode pada sisi subscriber menjadi lebih kompleks karena setiap subscriber harus membangun mekanisme pemanggilan data secara manual.
+
+**3.Explain what will happen to the program if we decide to not use multi-threading in the notification process.**
+
+Jika kita memutuskan untuk tidak menggunakan multi-threading dalam proses notifikasi, aplikasi akan terhambat ketika ada banyak subscriber. Proses pengiriman notifikasi akan memblokir eksekusi lainnya, sehingga performa aplikasi secara keseluruhan akan menurun drastis. Terlebih lagi, jika notifikasi dikirim dalam jumlah besar secara bersamaan.
